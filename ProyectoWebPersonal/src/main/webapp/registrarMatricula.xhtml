@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<style type="text/css">
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+</style>
+</h:head>
+<h:body>
+	<p:menubar>
+		<p:submenu label="Inicio">
+		</p:submenu>
+		<p:submenu label="Operaciones">
+			<p:menuitem value="Registrar alumnos por curso" url="registrarMatricula.xhtml" />
+			<p:menuitem value="Tomar asistencia" url="registrarAsistencia.xhtml" />
+			<p:menuitem value="Corregir asistencia" url="correcionasistencia.xhtml" />
+		</p:submenu>
+		<p:submenu label="Reporte">
+			<p:menuitem value="Consultar alumnos por curso"
+				url="consultaAlumnosxCurso.xhtml" />
+			<p:menuitem
+				value="Consultar cursos en los cuales esta inscrito un alumno"
+				url="consultarCursosMatriculados.xhtml" />
+				<p:menuitem
+				value="Reporte asistencia por alumno"
+				url="consultarasistenciaalumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_alumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_docente.xhtml" />
+		</p:submenu>
+		<f:facet name="options">
+			<h:form>
+				<p:commandButton  value="saliida"></p:commandButton>
+			</h:form>
+		</f:facet>
+	</p:menubar>
+   
+   <h:form id="form">
+		<p:growl id="growl" showDetail="true"/>
+		
+		<p:panel header="Registrar alumnos" id="panel">
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Curso" /> 
+				<h:selectOneMenu value="#{matricula.cursoSeleccionado}" converter = "convertidor.curso">
+					<p:ajax event="valueChange" update="form" listener="#{matricula.cargarGrupos}" />
+					
+					<f:selectItems value="#{matricula.cursos}" var="curso" itemLabel="#{curso.nombre}"  
+                        itemValue="#{curso}"/>  
+                        
+				</h:selectOneMenu>
+				
+				<h:outputText value="Grupo" /> 
+				<h:selectOneMenu value="#{matricula.grupoSeleccionado}" converter="convertidor.grupo">
+					<p:ajax event="valueChange" update="form" listener="#{matricula.cargarDetallesGrupo}" />
+					
+					<f:selectItems value="#{matricula.grupos}" var="grupo" itemLabel="#{grupo.nombre}"  
+                        itemValue="#{grupo}"/> 
+				</h:selectOneMenu>
+							
+				<h:outputText value="Teoria"/> 
+				<p:inputText value = "#{matricula.teoria.docente.nombreCompleto}" />
+				
+				<h:outputText value="Practica"/> 
+				<p:inputText value = "#{matricula.practica.docente.nombreCompleto}" />
+				
+				<h:outputText value="Laboratorio"/> 
+				<p:inputText value = "#{matricula.laboratorio.docente.nombreCompleto}" />
+			</h:panelGrid>
+			
+			<h:panelGrid columns="3">
+				<p:panel>
+					<p:dataTable id="tabla1"  paginator="true" rows="15" value="#{matricula.alumnosTotal}" var="alumnoLibre"
+						selection="#{matricula.alumnosA}" rowKey="#{alumnoLibre.idAlumno}">
+						
+						<f:facet name="header">Total de Alumnos</f:facet>
+						<p:column selectionMode="multiple" width="20"/>
+						
+						<p:column  headerText="Codigo" >
+				    		<h:outputText value="#{alumnoLibre.codigo}"/>
+						</p:column>
+						
+						<p:column  headerText="Apellidos">
+							<h:outputText value="#{alumnoLibre.apellidos}"/>
+						</p:column>
+						
+						<p:column  headerText="Nombres">
+							<h:outputText value="#{alumnoLibre.nombres}"/>
+						</p:column>
+						
+						<p:column  headerText="Edad">
+							<h:outputText value="#{alumnoLibre.edad}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+				<p:panel>
+					<p:commandButton value="Añadir" type="button" icon="ui-icon-circle-triangle-e" oncomplete="tabla1.clearFilters(); tabla2.clearFilters();">
+						<p:ajax event="click" listener="#{matricula.matricularAlumnos}" process="@this tabla1" update="tabla1 tabla2 growl" />
+					</p:commandButton>
+					
+					<p:commandButton value="Quitar" type="button" icon="ui-icon-circle-triangle-w" oncomplete="tabla1.clearFilters(); tabla2.clearFilters();">
+						<p:ajax event="click"  listener="#{matricula.desmatricularAlumnos}" process="@this tabla2" update="tabla1 tabla2 growl" />
+					</p:commandButton>
+				</p:panel>
+				                                                        
+				<p:panel>
+					<p:dataTable id="tabla2" paginator="true" rows="15" value="#{matricula.alumnosMatriculados}" var="alumnoMatriculado"
+						selection="#{matricula.alumnosB}" rowKey="#{alumnoMatriculado.idAlumno}">
+						<f:facet name="header">Alumnos seleccionados para Matricular</f:facet>
+						
+						<p:column selectionMode="multiple" width="20"/>
+						 
+						<p:column  headerText="Codigo" >
+				    		<h:outputText value="#{alumnoMatriculado.codigo}"/>
+						</p:column>
+						
+						<p:column  headerText="Apellidos">
+							<h:outputText value="#{alumnoMatriculado.apellidos}"/>
+						</p:column>
+						
+						<p:column  headerText="Nombres">
+							<h:outputText value="#{alumnoMatriculado.nombres}"/>
+						</p:column>
+						
+						<p:column  headerText="Edad">
+							<h:outputText value="#{alumnoMatriculado.edad}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:panelGrid>
+			
+			
+		<h:panelGrid columns="3" id="gride"> 
+				 <p:commandButton id="botonMatricula" process="@this" actionListener="#{matricula.actualizarMatricula}" value="Matricula"  update=":form" require="true"/>
+				
+				 <p:message for="botonMatricula"/>
+				 
+		        <p:blockUI block="panel" >
+             	Matriculando a los alumnos ...
+        	     <br/><p:graphicImage height="50" width="50"  value="img/LoadingWheel.gif" />
+        </p:blockUI>
+			</h:panelGrid>	
+			
+	
+		
+		</p:panel>
+	
+	</h:form>
+   
+</h:body>
+
+</html>

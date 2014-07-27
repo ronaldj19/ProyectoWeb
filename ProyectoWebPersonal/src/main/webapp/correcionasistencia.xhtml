@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<style type="text/css">
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+</style>
+</h:head>
+<h:body>
+	<p:menubar>
+		<p:submenu label="Inicio">
+		</p:submenu>
+		<p:submenu label="Operaciones">
+			<p:menuitem value="Registrar alumnos por curso" url="registrarMatricula.xhtml" />
+			<p:menuitem value="Tomar asistencia" url="registrarAsistencia.xhtml" />
+			<p:menuitem value="Corregir asistencia" url="correcionasistencia.xhtml" />
+		</p:submenu>
+		<p:submenu label="Reporte">
+			<p:menuitem value="Consultar alumnos por curso"
+				url="consultaAlumnosxCurso.xhtml" />
+			<p:menuitem
+				value="Consultar cursos en los cuales esta inscrito un alumno"
+				url="consultarCursosMatriculados.xhtml" />
+				<p:menuitem
+				value="Reporte asistencia por alumno"
+				url="consultarasistenciaalumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_alumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_docente.xhtml" />
+		</p:submenu>
+		<f:facet name="options">
+			<h:form>
+				<p:commandButton  value="saliida"></p:commandButton>
+			</h:form>
+		</f:facet>
+	</p:menubar>
+   
+   <h:form id="form">
+		<p:growl id="growl" showDetail="true"/>
+		
+		<p:panel header="Corregir asistencias" id="panel">
+			<h:panelGrid columns="2">
+			<h:outputText value="Curso" /> 
+				<h:selectOneMenu value="#{corregir.cursoSeleccionado}" converter = "convertidor.curso">
+					<p:ajax event="valueChange" update="form" listener="#{matricula.cargarGrupos}" />
+					
+					<f:selectItems value="#{corregir.cursos}" var="curso" itemLabel="#{curso.nombre}"  
+                        itemValue="#{curso}"/>  
+                        
+				</h:selectOneMenu>
+				
+				<h:outputText value="Grupo" /> 
+				<h:selectOneMenu value="#{corregir.grupoSeleccionado}" converter="convertidor.grupo">
+					<p:ajax event="valueChange" update="form" listener="#{corregir.cargarTipos}" />
+					
+					<f:selectItems value="#{corregir.grupos}" var="grupo" itemLabel="#{grupo.nombre}"  
+                        itemValue="#{grupo}"/> 
+				</h:selectOneMenu>
+				
+				<h:outputText value="Tipo" /> 
+				<h:selectOneMenu value="#{corregir.tipoSeleccionado}" converter="convertidor.tipo">
+					<p:ajax event="valueChange" update="form" listener="#{corregir.cargarClases}" />
+					
+					<f:selectItems value="#{corregir.tipos}" var="tipo" itemLabel="#{tipo.nombre}"  
+                        itemValue="#{tipo}"/> 
+				</h:selectOneMenu>
+				
+				<h:outputText value="Clases" /> 
+				<h:selectOneMenu value="#{corregir.claseSeleccionada}" converter="convertidor.clase">
+					<p:ajax event="valueChange" update="form" listener="#{corregir.cargarAsistencias}" />
+					
+					<f:selectItems value="#{corregir.clases}" var="clase" itemLabel="#{clase.fecha} - #{clase.tema}"  
+                        itemValue="#{clase}"/> 
+				</h:selectOneMenu>
+				</h:panelGrid>
+				<p:panel>
+
+					<p:dataTable id="tabla4"  editable="true"  paginator="true" rows="15" 
+						var="asis" value="#{corregir.asistencias}" >
+					
+						<f:facet name="header">Asistencias</f:facet>
+						
+						<p:column  headerText="Codigo">
+					   		<h:outputText value="#{asis.alumno.codigo}" />
+						</p:column>
+						
+						<p:column  headerText="Nombre">
+					   		<h:outputText value="#{asis.alumno.nombres}" />
+						</p:column>
+						
+						<p:column  headerText="Apellido">
+					   		<h:outputText value="#{asis.alumno.apellidos}" />
+						</p:column>
+						
+						<p:column  headerText="Asistencia">
+					   		<p:cellEditor>
+				               <f:facet name="output"><h:outputText value="#{asis.asistencia}" /></f:facet>
+				               <f:facet name="input">
+				                   <h:selectOneMenu value="#{asis.asistencia}">
+									   <f:selectItem itemValue="Asistio" itemLabel="Asistio" />
+									   <f:selectItem itemValue="Falto" itemLabel="Falto" />	
+									   <f:selectItem itemValue="Tardanza" itemLabel="Tardanza" />   							
+									</h:selectOneMenu>
+				               </f:facet>
+				           </p:cellEditor>
+						</p:column>
+						
+						<p:column  headerText="Asistencia">
+							<h:outputText value="#{asis.fechaModificacion}"/>
+						</p:column>
+						<p:column>
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			
+			
+		<h:panelGrid columns="3" id="gride"> 
+				 <p:commandButton id="tomarAsistencia" value="Actualizar" actionListener="#{corregir.actualizarAsistencia}" update=":form" require="true"/>
+				
+				 <p:message for="tomarAsistencia"/>
+				 
+		        <p:blockUI block="panel" >
+	             	Matriculando a los alumnos ...
+	        	     <br/><p:graphicImage height="50" width="50"  value="img/LoadingWheel.gif" />
+                </p:blockUI>
+			</h:panelGrid>	
+		
+		</p:panel>
+	
+	</h:form>
+   
+</h:body>
+
+</html>

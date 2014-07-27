@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="ProyectoWebPersonal">
+	<persistence-unit name="Mini_Aula_Virtual-G1"  transaction-type="JTA">
+	    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>jdbc/MysqlAV</jta-data-source>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Alumno</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Asistencia</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.AsistenciaDetalle</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Cicloprogramado</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Clase</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Clasedictado</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Curso</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Cursoprogramado</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Docente</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Grupo</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Horario</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Matricula</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Matriculadetalle</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Opcione</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Perfil</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Tipo</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Tipoasistencia</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Ciclo</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Usuario</class>
+		<class>com.miniaulavirtual.G1.datos.dominio.entidades.Perfilopcione</class>
+		
+		<properties>
+		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mydb"/>
+		<property name="javax.persistence.jdbc.user" value="root"/>
+		<property name="javax.persistence.jdbc.password" value="123456"/>
+		<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+		<property name="eclipselink.logging.level" value="FINE"/>
+ 		<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>  
+		</properties>
 	</persistence-unit>
 </persistence>

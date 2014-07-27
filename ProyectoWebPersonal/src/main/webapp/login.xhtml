@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<f:event listener="#{loginBean.checkLogin}" type="preRenderView"></f:event>
+	<h:head>
+		<style type="text/css">
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+</style>
+	</h:head>
+	<h:body>
+		<h:form id="form">
+			<p:growl id="growl" />
+			<p:graphicImage value="img/aulavirtual.png" width="100%" />
+
+			<p:panelGrid columns="3" width="80%">
+				<p:graphicImage value="img/grupo1.png" width="100%"  />
+
+				<h:panelGroup align="center" >
+					<h:outputText
+						value="Bienvenidos al módulo 
+									Registro de Asistencia -  Proyecto Aula virtual."
+						style="FONT-WEIGHT: bold; FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<br />
+					<h:outputText
+						value="Este módulo ayudará a los docentes a registrar la asistencia de sus alumnos a sus clases
+						        , tambien como un añadido ayudara para dar reportes listados de alumnos en un curso y tambien 
+						        le permitira a los alumnos ver sus reportes de asistencias."
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<br />
+					<h:outputText
+						value="Entre las operaciones que se puede realizar, están:"
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<br />
+					<h:outputText value="-Perfil Docente : Registro de alumnos por curso"
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<h:outputText value="-Perfil Docente : Tomar Asistencia"
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<h:outputText value="-Perfil Docente : Consultar alumnos por curso"
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<h:outputText value="-Perfil Alumno : Consultar cursos matriculados por alumno"
+						style="FONT-SIZE: medium; FONT-FAMILY: 'Arial';" />
+					<br />
+					<br />
+					<br />
+					<br />
+					<h:outputText
+						value="Esperamos que nuestras aplicaciones cumplan con sus requerimientos. Estaremos gustosos de recibir sus sugerencias."
+						style="FONT-SIZE: small; FONT-FAMILY: 'Arial';" />
+				</h:panelGroup>
+
+				<p:panel id="dialog" header="Login" width="80%">
+					<p:panelGrid columns="2">
+						<h:outputLabel for="username" value="Username:" />
+						<p:inputText value="#{loginBean.username}" id="username"
+							required="true" label="username" />
+
+						<h:outputLabel for="password" value="Password:" />
+						<h:inputSecret value="#{loginBean.password}" id="password"
+							required="true" label="password" />
+					</p:panelGrid>
+					<f:facet name="footer">
+						<p:commandButton id="loginButton" value="Login"
+							update="growl,username,password"
+							action="#{loginBean.loginUsuario}" />
+					</f:facet>
+				</p:panel>
+			</p:panelGrid>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

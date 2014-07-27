@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<style type="text/css">
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+</style>
+</h:head>
+<h:body>
+	<p:menubar>
+		<p:submenu label="Inicio">
+		</p:submenu>
+		<p:submenu label="Operaciones">
+			<p:menuitem value="Registrar alumnos por curso" url="registrarMatricula.xhtml" />
+			<p:menuitem value="Tomar asistencia" url="registrarAsistencia.xhtml" />
+			<p:menuitem value="Corregir asistencia" url="correcionasistencia.xhtml" />
+		</p:submenu>
+		<p:submenu label="Reporte">
+			<p:menuitem value="Consultar alumnos por curso"
+				url="consultaAlumnosxCurso.xhtml" />
+			<p:menuitem
+				value="Consultar cursos en los cuales esta inscrito un alumno"
+				url="consultarCursosMatriculados.xhtml" />
+				<p:menuitem
+				value="Reporte asistencia por alumno"
+				url="consultarasistenciaalumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_alumno.xhtml" />
+				<p:menuitem
+				value="Reporte de asistencia por curso"
+				url="reporteasistenciacurso_docente.xhtml" />
+		</p:submenu>
+		<f:facet name="options">
+			<h:form>
+				<p:commandButton  value="saliida"></p:commandButton>
+			</h:form>
+		</f:facet>
+	</p:menubar>
+   
+   <h:form id="form">
+		<p:growl id="growl" showDetail="true"/>
+		
+		<p:panel header="Asistencia de alumno" id="panel">
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Curso" /> 
+				<h:selectOneMenu value="#{asistencia3.cursoSeleccionado}" converter = "convertidor.curso">
+					<p:ajax event="valueChange" update="form" listener="#{matricula.cargarGrupos}" />
+					
+					<f:selectItems value="#{asistencia3.cursos}" var="curso" itemLabel="#{curso.nombre}"  
+                        itemValue="#{curso}"/>  
+                        
+				</h:selectOneMenu>
+				
+				<h:outputText value="Grupo" /> 
+				<h:selectOneMenu value="#{asistencia3.grupoSeleccionado}" converter="convertidor.grupo">
+					<p:ajax event="valueChange" update="form" listener="#{asistencia3.cargarTipos}" />
+					
+					<f:selectItems value="#{asistencia3.grupos}" var="grupo" itemLabel="#{grupo.nombre}"  
+                        itemValue="#{grupo}"/> 
+				</h:selectOneMenu>
+				
+				<h:outputText value="Tipo" /> 
+				<h:selectOneMenu value="#{asistencia3.tipoSeleccionado}" converter="convertidor.tipo">
+					<p:ajax event="valueChange" update="form" listener="#{asistencia3.cargarAsistencias}" />
+					
+					<f:selectItems value="#{asistencia3.tipos}" var="tipo" itemLabel="#{tipo.nombre}"  
+                        itemValue="#{tipo}"/> 
+				</h:selectOneMenu>
+							
+			</h:panelGrid>
+			
+				                                                        
+				<p:panel>
+					<p:dataTable id="tabla2" paginator="true" rows="15" value="#{asistencia3.asistencias}" var="a">
+						<f:facet name="header">Asistencias</f:facet>
+						
+						<p:column  headerText="Fecha" >
+				    		<h:outputText value="#{a.clase.fecha}"/>
+						</p:column>
+						
+						<p:column  headerText="Asistio">
+							<h:outputText value="#{a.asistencia}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+		
+		</p:panel>
+	
+	</h:form>
+   
+</h:body>
+
+</html>

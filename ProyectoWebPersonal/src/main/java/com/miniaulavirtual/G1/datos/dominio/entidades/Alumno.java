@@ -21,8 +21,8 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 @NamedQuery(name="Alumno.listar", query="SELECT a FROM Alumno a"),
-@NamedQuery(name="Alumno.listarPorGrupo", query = "SELECT a FROM Alumno a LEFT JOIN a.grupos as grupo"
-		+ " WHERE grupo.idGrupo = :idGrupo")
+@NamedQuery(name="Alumno.listarPorGrupo", query = "SELECT a FROM Alumno a LEFT JOIN a.grupos as grupo1"
+		+ " WHERE grupo1.idGrupo = :idGrupo")
 })
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -14,10 +14,10 @@ import javax.persistence.*;
 @NamedQueries({
 @NamedQuery(name="Curso.findAll", query="SELECT c FROM Curso c"),
 @NamedQuery(name = "Curso.listar",query = "SELECT c FROM Curso c"),
-@NamedQuery(name = "Curso.listarPorDocente",query = "SELECT DISTINCT c FROM Curso c LEFT JOIN c.grupos as grupo "
-		+ " LEFT JOIN grupo.tipos as tipo WHERE tipo.docente.codigo = :codigoDocente"),
-@NamedQuery(name = "Curso.listarPorAlumno",query = "SELECT DISTINCT c FROM Curso c LEFT JOIN c.grupos as grupo  LEFT JOIN grupo.alumnos"
-				+ " as alumno WHERE alumno.idAlumno = :idAlumno"),
+@NamedQuery(name = "Curso.listarPorDocente",query = "SELECT DISTINCT c FROM Curso c LEFT JOIN c.grupos as grupo1 "
+		+ " LEFT JOIN grupo1.tipos as tipo1 WHERE tipo1.docente.codigo = :codigoDocente"),
+@NamedQuery(name = "Curso.listarPorAlumno",query = "SELECT DISTINCT c FROM Curso c LEFT JOIN c.grupos as grupo1  LEFT JOIN grupo1.alumnos"
+				+ " as alumno1 WHERE alumno1.idAlumno = :idAlumno"),
 @NamedQuery(name = "Curso.buscarPorNombre", query = "SELECT c FROM Curso c WHERE c.nombre = :nombreCurso")
 })
 

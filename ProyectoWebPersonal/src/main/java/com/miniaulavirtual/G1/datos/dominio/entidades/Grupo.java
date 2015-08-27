@@ -26,7 +26,7 @@ import javax.persistence.OneToMany;
 @NamedQueries({
 @NamedQuery(name="Grupo.findAll", query="SELECT g FROM Grupo g"),
 @NamedQuery(name = "Grupo.buscar", query = "SELECT g FROM Grupo g WHERE g.idGrupo= :idGrupo"),
-@NamedQuery(name = "Grupo.listarPorAlumno", query = "SELECT g FROM Grupo g LEFT JOIN g.alumnos as alumno WHERE alumno.idAlumno= :idAlumno")
+@NamedQuery(name = "Grupo.listarPorAlumno", query = "SELECT g FROM Grupo g LEFT JOIN g.alumnos as alumno1 WHERE alumno1.idAlumno= :idAlumno")
 })
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
